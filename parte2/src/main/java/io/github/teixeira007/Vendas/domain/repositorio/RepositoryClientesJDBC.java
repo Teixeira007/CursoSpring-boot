@@ -1,24 +1,28 @@
 package io.github.teixeira007.Vendas.domain.repositorio;
 
 import io.github.teixeira007.Vendas.domain.entity.Cliente;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class Clientes {
+public class RepositoryClientesJDBC {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
 
     private static String INSERT = "INSERT INTO CLIENTE (NOME) VALUES (?)";
     private static String SELECT_ALL = "SELECT * FROM CLIENTE";
     private static String UPDATE = "UPDATE CLIENTE SET NOME = ? WHERE ID = ?";
     private static String DELETE = "DELETE FROM CLIENTE WHERE ID = ?";
+
 
     public Cliente salvar(Cliente cliente){
         jdbcTemplate.update(INSERT, new Object[]{cliente.getNome()});

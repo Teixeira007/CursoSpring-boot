@@ -1,8 +1,17 @@
 package io.github.teixeira007.Vendas.domain.entity;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Cliente {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    @Column(name = "nome", length = 100)
     private String nome;
+
 
     public Cliente() {
     }
