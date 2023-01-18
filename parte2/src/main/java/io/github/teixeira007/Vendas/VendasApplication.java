@@ -1,6 +1,7 @@
 package io.github.teixeira007.Vendas;
 
 import io.github.teixeira007.Vendas.domain.entity.Cliente;
+import io.github.teixeira007.Vendas.domain.repositorio.RepositoryCliente;
 import io.github.teixeira007.Vendas.domain.repositorio.RepositoryClientesJDBC;
 import io.github.teixeira007.Vendas.domain.repositorio.RepositoryClientesJPA;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,42 +16,42 @@ import java.util.List;
 public class VendasApplication {
 
 	@Bean
-	public CommandLineRunner init(@Autowired RepositoryClientesJPA repositoryClientesJPA){
+	public CommandLineRunner init(@Autowired RepositoryCliente repositoryCliente){
 		return args -> {
 			Cliente cliente = new Cliente("Vinicius");
 			Cliente cliente1 = new Cliente("Joao");
 
 			System.out.println("Salvando os clientes");
-			repositoryClientesJPA.salvar(cliente);
-			repositoryClientesJPA.salvar(cliente1);
+			repositoryCliente.save(cliente);
+			repositoryCliente.save(cliente1);
 
 
 			System.out.println("Listando os clientes");
-			List<Cliente> obterTodos = repositoryClientesJPA.obterTodos();
+			List<Cliente> obterTodos = repositoryCliente.findAll();
 			obterTodos.forEach(System.out::println);
 
 			System.out.println("Atualizando os clientes");
 
 			obterTodos.forEach(c -> {
 				c.setNome(c.getNome() + " atualizado");
-				repositoryClientesJPA.atualizar(c);
+				repositoryCliente.save(c);
 			});
 
 
 			System.out.println("Listando os clientes atualizados");
-			obterTodos = repositoryClientesJPA.obterTodos();
+			obterTodos = repositoryCliente.findAll();
 			obterTodos.forEach(System.out::println);
 
 			System.out.println("Buscando por nome");
-			repositoryClientesJPA.obterPorNome("Vini").forEach(System.out::println);
+			repositoryCliente.findByNomeLike("Vini").forEach(System.out::println);
 //
 			System.out.println("Deletando clientes");
 
-			repositoryClientesJPA.obterTodos().forEach(c -> {
-				repositoryClientesJPA.deletar(c);
+			repositoryCliente.findAll().forEach(c -> {
+				repositoryCliente.delete(c);
 			});
 
-			obterTodos = repositoryClientesJPA.obterTodos();
+			obterTodos = repositoryCliente.findAll();
 			if(obterTodos.isEmpty()){
 				System.out.println("Nenhum cliente cadastrado");
 			}else{
