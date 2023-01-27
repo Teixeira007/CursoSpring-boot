@@ -25,40 +25,43 @@ public class VendasApplication {
 			repositoryCliente.save(cliente);
 			repositoryCliente.save(cliente1);
 
-			boolean exists = repositoryCliente.existsByNome("Vinicius");
-			System.out.println("Existe um cliente com nome Vinicius? "+exists);
-
-			System.out.println("Listando os clientes");
-			List<Cliente> obterTodos = repositoryCliente.findAll();
-			obterTodos.forEach(System.out::println);
-
-			System.out.println("Atualizando os clientes");
-
-			obterTodos.forEach(c -> {
-				c.setNome(c.getNome() + " atualizado");
-				repositoryCliente.save(c);
-			});
-
-
-			System.out.println("Listando os clientes atualizados");
-			obterTodos = repositoryCliente.findAll();
-			obterTodos.forEach(System.out::println);
-
-			System.out.println("Buscando por nome");
-			repositoryCliente.findByNome("Vinicius atualizado").forEach(System.out::println);
+//			boolean exists = repositoryCliente.existsByNome("Vinicius");
+//			System.out.println("Existe um cliente com nome Vinicius? "+exists);
 //
-			System.out.println("Deletando clientes");
+//			System.out.println("Listando os clientes");
+//			List<Cliente> obterTodos = repositoryCliente.findAll();
+//			obterTodos.forEach(System.out::println);
 
-			repositoryCliente.findAll().forEach(c -> {
-				repositoryCliente.delete(c);
-			});
+//			System.out.println("Atualizando os clientes");
 
-			obterTodos = repositoryCliente.findAll();
-			if(obterTodos.isEmpty()){
-				System.out.println("Nenhum cliente cadastrado");
-			}else{
-				obterTodos.forEach(System.out::println);
-			}
+//			obterTodos.forEach(c -> {
+//				c.setNome(c.getNome() + " atualizado");
+//				repositoryCliente.save(c);
+//			});
+//
+//
+//			System.out.println("Listando os clientes atualizados");
+//			obterTodos = repositoryCliente.findAll();
+//			obterTodos.forEach(System.out::println);
+
+//			System.out.println("Buscando por nome");
+//			repositoryCliente.findByNome("Vinicius atualizado").forEach(System.out::println);
+
+			List<Cliente> result = repositoryCliente.encontraPortNome("Vinicius");
+			result.forEach(System.out::println);
+////
+//			System.out.println("Deletando clientes");
+//
+//			repositoryCliente.findAll().forEach(c -> {
+//				repositoryCliente.delete(c);
+//			});
+//
+//			obterTodos = repositoryCliente.findAll();
+//			if(obterTodos.isEmpty()){
+//				System.out.println("Nenhum cliente cadastrado");
+//			}else{
+//				obterTodos.forEach(System.out::println);
+//			}
 		};
 	}
 	public static void main(String[] args) {
