@@ -2,6 +2,8 @@ package io.github.teixeira007.Vendas.domain.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 public class Cliente {
     @Id
@@ -12,6 +14,8 @@ public class Cliente {
     @Column(name = "nome", length = 100)
     private String nome;
 
+    @OneToMany(mappedBy = "cliente")
+    private Set<Pedido> pedidos;
 
     public Cliente() {
     }
@@ -24,6 +28,15 @@ public class Cliente {
     public Cliente(String nome) {
         this.nome = nome;
     }
+    public Set<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(Set<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+
+
 
     public Integer getId() {
         return id;

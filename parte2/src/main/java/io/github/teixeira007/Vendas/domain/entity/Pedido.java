@@ -1,13 +1,25 @@
 package io.github.teixeira007.Vendas.domain.entity;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "pedido")
 public class Pedido {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private Cliente cliente;
-    private BigDecimal total;
 
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
+
+    @Column(name = "total", length = 20, precision = 2)
+    private BigDecimal total;
+    @Column(name = "data_pedido")
+    private LocalDate data;
     public BigDecimal getTotal() {
         return total;
     }
@@ -16,7 +28,8 @@ public class Pedido {
         this.total = total;
     }
 
-    private LocalDate data;
+
+
 
     public Integer getId() {
         return id;
