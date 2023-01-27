@@ -25,6 +25,8 @@ public class VendasApplication {
 			repositoryCliente.save(cliente);
 			repositoryCliente.save(cliente1);
 
+			boolean exists = repositoryCliente.existsByNome("Vinicius");
+			System.out.println("Existe um cliente com nome Vinicius? "+exists);
 
 			System.out.println("Listando os clientes");
 			List<Cliente> obterTodos = repositoryCliente.findAll();
@@ -43,7 +45,7 @@ public class VendasApplication {
 			obterTodos.forEach(System.out::println);
 
 			System.out.println("Buscando por nome");
-			repositoryCliente.findByNomeLike("Vini").forEach(System.out::println);
+			repositoryCliente.findByNome("Vinicius atualizado").forEach(System.out::println);
 //
 			System.out.println("Deletando clientes");
 

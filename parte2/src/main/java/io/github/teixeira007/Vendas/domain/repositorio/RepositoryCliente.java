@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 public interface RepositoryCliente extends JpaRepository<Cliente, Integer> {
-    List<Cliente> findByNomeLike(String nome);
+    List<Cliente> findByNome(String nome);
+
+    boolean existsByNome(String nome);
 }
