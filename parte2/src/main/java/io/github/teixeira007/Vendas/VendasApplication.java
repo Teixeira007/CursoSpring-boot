@@ -1,29 +1,48 @@
 package io.github.teixeira007.Vendas;
 
 import io.github.teixeira007.Vendas.domain.entity.Cliente;
+import io.github.teixeira007.Vendas.domain.entity.Pedido;
+import io.github.teixeira007.Vendas.domain.entity.Produto;
 import io.github.teixeira007.Vendas.domain.repositorio.RepositoryCliente;
 import io.github.teixeira007.Vendas.domain.repositorio.RepositoryClientesJDBC;
 import io.github.teixeira007.Vendas.domain.repositorio.RepositoryClientesJPA;
+import io.github.teixeira007.Vendas.domain.repositorio.RepositoryPedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootApplication
 public class VendasApplication {
 
 	@Bean
-	public CommandLineRunner init(@Autowired RepositoryCliente repositoryCliente){
+	public CommandLineRunner init(
+			@Autowired RepositoryCliente repositoryCliente,
+			@Autowired RepositoryPedido repositoryPedido
+	){
 		return args -> {
 			Cliente cliente = new Cliente("Vinicius");
-			Cliente cliente1 = new Cliente("Joao");
+//			Cliente cliente1 = new Cliente("Joao");
 
 			System.out.println("Salvando os clientes");
 			repositoryCliente.save(cliente);
-			repositoryCliente.save(cliente1);
+//			repositoryCliente.save(cliente1);
+
+			Pedido p = new Pedido();
+			p.setCliente(cliente);
+			p.setData(LocalDate.now());
+			p.setTotal(BigDecimal.valueOf(100));
+
+			repositoryPedido.save(p);
+
+			Cliente Vinicius = repositoryCliente.findClienteFetchPedidos(cliente.getId());
+			System.out.println(Vinicius);
+			System.out.println(Vinicius.getPedidos());
 
 //			boolean exists = repositoryCliente.existsByNome("Vinicius");
 //			System.out.println("Existe um cliente com nome Vinicius? "+exists);

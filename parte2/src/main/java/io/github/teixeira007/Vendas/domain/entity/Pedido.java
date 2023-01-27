@@ -64,4 +64,13 @@ public class Pedido {
     public void setData(LocalDate data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "cliente=" + cliente +
+                ", total=" + total +
+                ", data=" + data +
+                '}';
+    }
 }
