@@ -1,9 +1,24 @@
 package io.github.teixeira007.Vendas.domain.entity;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "item_pedido")
 public class ItemPedido {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "id_produto")
     private Produto produto;
+
+    @ManyToOne
+    @JoinColumn(name = "id_pedido")
     private Pedido pedido;
+
+    @Column(name = "quantidade")
     private Integer quantidade;
 
     public Integer getId() {
