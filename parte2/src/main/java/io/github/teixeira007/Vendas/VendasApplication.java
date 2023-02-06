@@ -40,9 +40,11 @@ public class VendasApplication {
 
 			repositoryPedido.save(p);
 
-			Cliente Vinicius = repositoryCliente.findClienteFetchPedidos(cliente.getId());
-			System.out.println(Vinicius);
-			System.out.println(Vinicius.getPedidos());
+//			Cliente Vinicius = repositoryCliente.findClienteFetchPedidos(cliente.getId());
+//			System.out.println(Vinicius);
+//			System.out.println(Vinicius.getPedidos());
+
+			repositoryPedido.findByCliente(cliente).forEach(System.out::println);
 
 //			boolean exists = repositoryCliente.existsByNome("Vinicius");
 //			System.out.println("Existe um cliente com nome Vinicius? "+exists);
