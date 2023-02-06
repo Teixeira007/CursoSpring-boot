@@ -1,5 +1,6 @@
 package io.github.teixeira007.Vendas.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -21,6 +22,7 @@ public class Pedido {
     private BigDecimal total;
     @Column(name = "data_pedido")
     private LocalDate data;
+
 
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens;

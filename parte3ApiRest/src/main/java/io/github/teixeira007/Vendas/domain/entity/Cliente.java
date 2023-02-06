@@ -1,5 +1,6 @@
 package io.github.teixeira007.Vendas.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -28,6 +29,7 @@ public class Cliente {
     public Cliente(String nome) {
         this.nome = nome;
     }
+    @JsonIgnore
     public Set<Pedido> getPedidos() {
         return pedidos;
     }
