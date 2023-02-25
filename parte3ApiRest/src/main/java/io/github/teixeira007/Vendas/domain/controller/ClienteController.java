@@ -2,11 +2,14 @@ package io.github.teixeira007.Vendas.domain.controller;
 
 import io.github.teixeira007.Vendas.domain.entity.Cliente;
 import io.github.teixeira007.Vendas.domain.repositorio.RepositoryCliente;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -62,5 +65,19 @@ public class ClienteController {
                                     repositoryCliente.save(cliente);
                                     return ResponseEntity.noContent().build();
                                 }).orElseGet( () ->  ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("api/clientes")
+    public ResponseEntity find(Cliente filtro){
+
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+
+        Example example = Example.of(filtro, matcher);
+        List<Cliente> lista = repositoryCliente.findAll(example);
+
+        return ResponseEntity.ok(lista);
     }
 }
