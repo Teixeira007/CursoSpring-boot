@@ -1,4 +1,4 @@
-package io.github.teixeira007.Vendas.domain.controller;
+package io.github.teixeira007.Vendas.rest.controller;
 
 import io.github.teixeira007.Vendas.domain.entity.Produto;
 import io.github.teixeira007.Vendas.domain.repositorio.RepositoryProduto;
