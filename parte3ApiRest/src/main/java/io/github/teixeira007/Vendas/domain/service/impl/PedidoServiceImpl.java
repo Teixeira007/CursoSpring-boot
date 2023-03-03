@@ -4,11 +4,13 @@ import io.github.teixeira007.Vendas.domain.entity.Cliente;
 import io.github.teixeira007.Vendas.domain.entity.ItemPedido;
 import io.github.teixeira007.Vendas.domain.entity.Pedido;
 import io.github.teixeira007.Vendas.domain.entity.Produto;
+import io.github.teixeira007.Vendas.domain.enums.StatusPedido;
 import io.github.teixeira007.Vendas.domain.repositorio.RepositoryCliente;
 import io.github.teixeira007.Vendas.domain.repositorio.RepositoryItemPedido;
 import io.github.teixeira007.Vendas.domain.repositorio.RepositoryPedido;
 import io.github.teixeira007.Vendas.domain.repositorio.RepositoryProduto;
 import io.github.teixeira007.Vendas.domain.service.PedidoService;
+import io.github.teixeira007.Vendas.exception.PedidoNaoEncontradoException;
 import io.github.teixeira007.Vendas.exception.RegradeNegocioException;
 import io.github.teixeira007.Vendas.rest.dto.ItemPedidoDTO;
 import io.github.teixeira007.Vendas.rest.dto.PedidoDTO;
@@ -46,6 +48,7 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setTotal(dto.getTotal());
         pedido.setData(LocalDate.now());
         pedido.setCliente(cliente);
+        pedido.setStatus(StatusPedido.REALIZADO);
 
         List<ItemPedido> itemPedidos = converterItemPedido(pedido, dto.getItems());
         repositoryPedido.save(pedido);
@@ -58,6 +61,16 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public Optional<Pedido> obterPedidoCompleto(Integer id) {
         return repositoryPedido.findByIdFetchItens(id);
+    }
+
+    @Override
+    @Transactional
+    public void atualizarStatus(Integer id, StatusPedido statusPedido) {
+        repositoryPedido.findById(id)
+                .map(pedido -> {
+                    pedido.setStatus(statusPedido);
+                    return repositoryPedido.save(pedido);
+                }).orElseThrow(() -> new PedidoNaoEncontradoException());
     }
 
     private List<ItemPedido> converterItemPedido(Pedido pedido, List<ItemPedidoDTO> items){

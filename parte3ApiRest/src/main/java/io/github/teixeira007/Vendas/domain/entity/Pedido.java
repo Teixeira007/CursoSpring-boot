@@ -1,6 +1,6 @@
 package io.github.teixeira007.Vendas.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.github.teixeira007.Vendas.domain.enums.StatusPedido;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +28,10 @@ public class Pedido {
     private BigDecimal total;
     @Column(name = "data_pedido")
     private LocalDate data;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private StatusPedido status;
 
 
     @OneToMany(mappedBy = "pedido")

@@ -2,11 +2,9 @@ package io.github.teixeira007.Vendas.rest.controller;
 
 import io.github.teixeira007.Vendas.domain.entity.ItemPedido;
 import io.github.teixeira007.Vendas.domain.entity.Pedido;
+import io.github.teixeira007.Vendas.domain.enums.StatusPedido;
 import io.github.teixeira007.Vendas.domain.service.PedidoService;
-import io.github.teixeira007.Vendas.rest.dto.InformacoesItemPedidoDTO;
-import io.github.teixeira007.Vendas.rest.dto.InformacoesPedidoDTO;
-import io.github.teixeira007.Vendas.rest.dto.ItemPedidoDTO;
-import io.github.teixeira007.Vendas.rest.dto.PedidoDTO;
+import io.github.teixeira007.Vendas.rest.dto.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +41,13 @@ public class PedidoController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado"));
     }
 
+    @PatchMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateStatus(@PathVariable Integer id, @RequestBody AtualizarStatusPedidoDTO dto){
+        String status = dto.getNovoStatus();
+        pedidoService.atualizarStatus(id, StatusPedido.valueOf(status));
+    }
+
     private InformacoesPedidoDTO converter(Pedido pedido){
         return InformacoesPedidoDTO
                 .builder()
@@ -51,6 +56,7 @@ public class PedidoController {
                 .codigo(pedido.getId())
                 .total(pedido.getTotal())
                 .nomeCliente(pedido.getCliente().getNome())
+                .status(pedido.getStatus().name())
                 .itens(converter(pedido.getItens()))
                 .build();
     }
@@ -68,4 +74,6 @@ public class PedidoController {
                         .build()
                 ).collect(Collectors.toList());
     }
+
+
 }
